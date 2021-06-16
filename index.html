@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fetch API v2</title>
+
+  <style>
+    body{
+      font-family: "roboto light";
+      text-align: center;
+      min-height: 100vh;
+    }
+    h1{
+      margin: 3rem 0;
+    }
+    .refresh{
+      width: 150px;
+      height: 60px;
+      font-size: 1.5rem;
+      background-color: royalblue;
+      color: white;
+      cursor: pointer;
+      user-select: none;
+      border: none;
+    }
+    .refresh:hover{
+      background-color: dodgerblue;
+    }
+    .result{
+      margin-top: 3rem;
+    }
+
+    .userbox{
+      width: 240px;
+      margin: 1rem;
+      padding: 1rem;
+      box-shadow: 0px 0px 10px -1px rgba(0,0,0,.1);
+      display: inline-block;
+      transition: .2s;
+    }
+    .userbox:hover{
+      box-shadow: 0px 0px 15px 0px rgba(0,0,0,.2);
+    }
+  </style>
+</head>
+<body>
+  <h1>Users Data via Fetch API</h1>
+  <button class="refresh">refresh</button>
+
+  <div class="result"></div>
+
+  <script>
+    function fakeFetchAPI() {
+      fetch('https://reqres.in/api/users?page=2')
+    .then((response) => {
+      return (response.json());
+
+    })
+    .then(datas => {
+      // console.log(datas.data);
+
+      var values = datas.data;
+      console.log(values);
+      // console.log(data.avatar, data.email, data.first_name, data.id, data.last_name);
+
+
+      var results = document.querySelector('.result');
+
+      var template = ``;
+
+      for(let i = 0; i < values.length; i++) {
+        template += `
+      <div class="userbox">
+    <img src="${values[i].avatar}" width="128px"  alt="">
+    <h3 class="fullname">${values[i].first_name} ${values[i].last_name}</h3>
+    <code class="email">${values[i].email}</div>
+  </div>
+        `
+      }
+
+      results.innerHTML = template;
+      console.log(99);
+      
+    })
+    }
+
+    fakeFetchAPI();
+
+    var refreshBtn = document.querySelector('.refresh');
+
+    refreshBtn.addEventListener('click',() => {
+      document.querySelector('.result').innerHTML = '';
+      // alert(9)
+      fakeFetchAPI()
+    })
+
+  </script>
+
+  
+</body>
+</html>
